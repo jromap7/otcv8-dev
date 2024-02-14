@@ -31,7 +31,7 @@ jobs:
       uses: lukka/run-vcpkg@v7
       with:
         vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
-        vcpkgTriplet: x86-windows-static
+        vcpkgTriplet: x86-windows
         vcpkgGitCommitId: 3b3bd424827a1f7f4813216f6b32b6c61e386b2e
         vcpkgArguments: >
           discord-rpc boost-iostreams boost-asio boost-beast boost-system boost-variant boost-lockfree boost-process boost-program-options boost-uuid boost-filesystem glew luajit
