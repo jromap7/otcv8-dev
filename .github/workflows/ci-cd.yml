@@ -36,12 +36,8 @@ jobs:
         vcpkgGitURL: https://github.com/microsoft/vcpkg.git
         doNotUpdateVcpkg: false
         doNotCache: true
-        vcpkgJsonGlob: **/vcpkg.json
-        vcpkgJsonIgnores: ['**/vcpkg/**']
-        vcpkgConfigurationJsonGlob: **/vcpkg-configuration.json
         runVcpkgFormatString: ['install', 'bzip2', 'discord-rpc', 'boost-iostreams', 'boost-asio', 'boost-beast', 'boost-system', 'boost-variant', 'boost-lockfree', 'boost-process', 'boost-program-options', 'boost-uuid', 'boost-filesystem', 'luajit', 'glew', 'physfs', 'openal-soft', 'libogg', 'libvorbis', 'zlib', 'libzip', 'openssl', 'liblzma']
         useShell: true
-        logCollectionRegExps: \s*"(.+CMakeOutput\.log)"\.\s*;\s*"(.+CMakeError\.log)"\.\s*;\s*(.+out\.log)\s*;\s+(.+err\.log)\s*;\s*(.+vcpkg.+\.log)\s*
 
 
     - name: Integrate vcpkg
