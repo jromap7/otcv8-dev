@@ -8,19 +8,7 @@ on:
 jobs:
   Windows:
     name: Build windows version
-    runs-on: windows-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        include:
-          - os: windows-latest
-            triplet: x86-windows-static
-          - os: ubuntu-latest
-            triplet: x64-linux
-          - os: macos-latest
-            triplet: x64-osx
-
+    runs-on: windows-2019
     timeout-minutes: 90
     if: |
       !contains(github.event.head_commit.message, '[skip release]')
@@ -29,9 +17,6 @@ jobs:
         || github.ref == 'refs/heads/main'
         || github.ref == 'refs/heads/master'
       )
-    env:
-      VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -42,18 +27,15 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
       id: setup_msbuild
 
-    - name: Run vcpkg install
-      uses: lukka/run-vcpkg@v11
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v7
       with:
         vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
-        vcpkgGitCommitId: 5b1214315250939257ef5d62ecdcbca18cf4fb1c
-        runVcpkgInstall: true
-        vcpkgJsonGlob: '**/vcpkg.json'
-        vcpkgGitURL: https://github.com/microsoft/vcpkg.git
-        doNotUpdateVcpkg: false
-        doNotCache: true
-        useShell: true
-
+        vcpkgTriplet: x86-windows-static
+        vcpkgGitCommitId: 3b3bd424827a1f7f4813216f6b32b6c61e386b2e
+        vcpkgArguments: >
+          discord-rpc boost-iostreams boost-asio boost-beast boost-system boost-variant boost-lockfree boost-process boost-program-options boost-uuid boost-filesystem glew luajit
+          physfs openal-soft libogg libvorbis zlib libzip openssl
 
     - name: Integrate vcpkg
       run: |

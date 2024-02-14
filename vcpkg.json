@@ -22,7 +22,6 @@
     "libvorbis",
     "zlib",
     "libzip",
-    "openssl",
-    "liblzma"
+    "openssl"
   ]
 }
