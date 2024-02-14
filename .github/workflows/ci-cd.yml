@@ -8,7 +8,19 @@ on:
 jobs:
   Windows:
     name: Build windows version
-    runs-on: windows-2019
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: windows-latest
+            triplet: x86-windows-static
+          - os: ubuntu-latest
+            triplet: x64-linux
+          - os: macos-latest
+            triplet: x64-osx
+
     timeout-minutes: 90
     if: |
       !contains(github.event.head_commit.message, '[skip release]')
@@ -17,6 +29,9 @@ jobs:
         || github.ref == 'refs/heads/main'
         || github.ref == 'refs/heads/master'
       )
+    env:
+      VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
