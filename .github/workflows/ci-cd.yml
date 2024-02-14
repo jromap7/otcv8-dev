@@ -27,15 +27,22 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
       id: setup_msbuild
 
-    - name: Run vcpkg
+    - name: Run vcpkg install
       uses: lukka/run-vcpkg@v11
       with:
         vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
-        vcpkgTriplet: x86-windows-static
         vcpkgGitCommitId: 5b1214315250939257ef5d62ecdcbca18cf4fb1c
-        vcpkgArguments: >
-          bzip2 discord-rpc boost-iostreams boost-asio boost-beast boost-system boost-variant boost-lockfree boost-process boost-program-options boost-uuid boost-filesystem
-          luajit glew physfs openal-soft libogg libvorbis zlib libzip openssl liblzma
+        runVcpkgInstall: true
+        vcpkgGitURL: https://github.com/microsoft/vcpkg.git
+        doNotUpdateVcpkg: false
+        doNotCache: true
+        vcpkgJsonGlob: **/vcpkg.json
+        vcpkgJsonIgnores: ['**/vcpkg/**']
+        vcpkgConfigurationJsonGlob: **/vcpkg-configuration.json
+        runVcpkgFormatString: ['install', 'bzip2', 'discord-rpc', 'boost-iostreams', 'boost-asio', 'boost-beast', 'boost-system', 'boost-variant', 'boost-lockfree', 'boost-process', 'boost-program-options', 'boost-uuid', 'boost-filesystem', 'luajit', 'glew', 'physfs', 'openal-soft', 'libogg', 'libvorbis', 'zlib', 'libzip', 'openssl', 'liblzma']
+        useShell: true
+        logCollectionRegExps: \s*"(.+CMakeOutput\.log)"\.\s*;\s*"(.+CMakeError\.log)"\.\s*;\s*(.+out\.log)\s*;\s+(.+err\.log)\s*;\s*(.+vcpkg.+\.log)\s*
+
 
     - name: Integrate vcpkg
       run: |
