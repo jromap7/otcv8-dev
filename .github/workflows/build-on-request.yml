@@ -18,7 +18,7 @@ jobs:
       id: setup_msbuild
 
     - name: Run vcpkg
-      uses: lukka/run-vcpkg
+      uses: lukka/run-vcpkg@v11
       with:
         vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
         vcpkgTriplet: x86-windows-static
